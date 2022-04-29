@@ -12,6 +12,8 @@ public class CookieMain {
     JButton button1, button2, button3, button4;
     int cookieCounter, timerSpeed, cursorNumber, cursorPrice, grandpaNumber =0, grandpaPrice = 100;
 
+    int totClicks = 0;
+
     double perSecond;
 
     boolean timerOn, grandpaUnlocked = false;
@@ -50,7 +52,9 @@ public class CookieMain {
         font2 = new Font("Times New Roman", Font.PLAIN, 15);
 
     }
-
+    ImageIcon cookie = new ImageIcon(getClass().getClassLoader().getResource("cookie.png"));
+    JPanel cookiePanel = new JPanel();
+    JButton cookieButton = new JButton();
 
     public void createUI() {
 
@@ -61,13 +65,13 @@ public class CookieMain {
         window.getContentPane().setBackground(Color.black);
         window.setLayout(null);
 
-        JPanel cookiePanel = new JPanel();
+
         cookiePanel.setBounds(100, 220, 200, 200);
         cookiePanel.setBackground(Color.black);
 
-        ImageIcon cookie = new ImageIcon(getClass().getClassLoader().getResource("cookie.png"));
 
-        JButton cookieButton = new JButton();
+
+
         cookieButton.addActionListener(cHandler);
         cookieButton.setBackground(Color.black);
         cookieButton.setFocusPainted(false);
@@ -169,6 +173,7 @@ public class CookieMain {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cookieCounter++;
+                totClicks++;
                 counterLabel.setText(cookieCounter + " cookies");
 
                 if(grandpaUnlocked == false){
@@ -206,6 +211,27 @@ public class CookieMain {
             switch (action) {
                 case "cookie":
                     cookieCounter++;
+                    totClicks++;
+
+
+                  //  ImageIcon cookie = new ImageIcon(getClass().getClassLoader().getResource("cookie.png"));
+
+                    System.out.println(totClicks);
+                    if(totClicks > 10){
+
+                        cookieButton.setIcon(null);
+
+                        cookie = new ImageIcon(getClass().getClassLoader().getResource("monster_red.png"));
+
+                        cookieButton.setIcon(cookie);
+
+
+                        cookiePanel.add(cookieButton);
+                    }
+
+
+
+
                     counterLabel.setText(cookieCounter + " cookies");
                     break;
 
