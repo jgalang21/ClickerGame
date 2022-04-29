@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class CookieMain {
+public class GameMain {
 
     JLabel counterLabel, perSecLabel;
 
     JButton button1, button2, button3, button4;
-    int cookieCounter, timerSpeed, cursorNumber, cursorPrice, grandpaNumber =0, grandpaPrice = 100;
+    int pointCounter, timerSpeed, cursorNumber, cursorPrice, grandpaNumber =0, grandpaPrice = 100;
 
     int totClicks = 0;
 
@@ -18,7 +18,7 @@ public class CookieMain {
 
     boolean timerOn, grandpaUnlocked = false;
 
-    CookieHandler cHandler = new CookieHandler();
+    GameHandler gHandler = new GameHandler();
 
     Timer timer;
 
@@ -29,15 +29,16 @@ public class CookieMain {
     Font font1, font2;
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        System.out.println("Starting game...");
 
-        new CookieMain();
+        new GameMain();
     }
 
-    public CookieMain() {
+
+    public GameMain() {
         timerOn = false;
         perSecond = 0;
-        cookieCounter = 0;
+        pointCounter = 0;
 
         cursorNumber = 0;
         cursorPrice = 10;
@@ -52,9 +53,9 @@ public class CookieMain {
         font2 = new Font("Times New Roman", Font.PLAIN, 15);
 
     }
-    ImageIcon cookie = new ImageIcon(getClass().getClassLoader().getResource("cookie.png"));
-    JPanel cookiePanel = new JPanel();
-    JButton cookieButton = new JButton();
+    ImageIcon game = new ImageIcon(getClass().getClassLoader().getResource("cookie.png"));
+    JPanel mainPanel = new JPanel();
+    JButton mainButton = new JButton();
 
     public void createUI() {
 
@@ -66,20 +67,20 @@ public class CookieMain {
         window.setLayout(null);
 
 
-        cookiePanel.setBounds(100, 220, 200, 200);
-        cookiePanel.setBackground(Color.black);
+        mainPanel.setBounds(100, 220, 200, 200);
+        mainPanel.setBackground(Color.black);
 
 
 
 
-        cookieButton.addActionListener(cHandler);
-        cookieButton.setBackground(Color.black);
-        cookieButton.setFocusPainted(false);
-        cookieButton.setBorder(null);
-        cookieButton.setIcon(cookie);
-        cookieButton.setActionCommand("cookie");
+        mainButton.addActionListener(gHandler);
+        mainButton.setBackground(Color.black);
+        mainButton.setFocusPainted(false);
+        mainButton.setBorder(null);
+        mainButton.setIcon(game);
+        mainButton.setActionCommand("damage");
 
-        cookiePanel.add(cookieButton);
+        mainPanel.add(mainButton);
 
         JPanel counterPanel = new JPanel();
         counterPanel.setBounds(100, 100, 200, 100);
@@ -88,9 +89,9 @@ public class CookieMain {
         window.add(counterPanel);
 
 
-        window.add(cookiePanel);
+        window.add(mainPanel);
 
-        counterLabel = new JLabel(cookieCounter + " cookies");
+        counterLabel = new JLabel(pointCounter + " points");
         counterLabel.setForeground(Color.white);
         counterLabel.setFont(font1);
         counterPanel.add(counterLabel);
@@ -114,7 +115,7 @@ public class CookieMain {
         button1 = new JButton("Cursor");
         button1.setFont(font1);
         button1.setFocusPainted(false);
-        button1.addActionListener(cHandler);
+        button1.addActionListener(gHandler);
         button1.setActionCommand("Cursor");
         button1.addMouseListener(mHandler);
 
@@ -123,7 +124,7 @@ public class CookieMain {
         button2 = new JButton("?");
         button2.setFont(font1);
         button2.setFocusPainted(false);
-        button2.addActionListener(cHandler);
+        button2.addActionListener(gHandler);
         button2.setActionCommand("Grandpa");
         button2.addMouseListener(mHandler);
 
@@ -132,7 +133,7 @@ public class CookieMain {
         button3 = new JButton("?");
         button3.setFont(font1);
         button3.setFocusPainted(false);
-        button3.addActionListener(cHandler);
+        button3.addActionListener(gHandler);
         button3.setActionCommand("Cursor");
         button3.addMouseListener(mHandler);
 
@@ -141,7 +142,7 @@ public class CookieMain {
         button4 = new JButton("?");
         button4.setFont(font1);
         button4.setFocusPainted(false);
-        button4.addActionListener(cHandler);
+        button4.addActionListener(gHandler);
         button4.setActionCommand("Cursor");
         button4.addMouseListener(mHandler);
 
@@ -172,12 +173,12 @@ public class CookieMain {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                cookieCounter++;
+                pointCounter++;
                 totClicks++;
-                counterLabel.setText(cookieCounter + " cookies");
+                counterLabel.setText(pointCounter + " points");
 
                 if(grandpaUnlocked == false){
-                    if(cookieCounter >= grandpaPrice){
+                    if(pointCounter >= grandpaPrice){
                         grandpaUnlocked = true;
                         button2.setText("Grandpa " + "(" + grandpaNumber + ")");
 
@@ -204,43 +205,29 @@ public class CookieMain {
         timer.start();
     }
 
-    public class CookieHandler implements ActionListener {
+    public class GameHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             String action = event.getActionCommand();
 
             switch (action) {
-                case "cookie":
-                    cookieCounter++;
+                case "damage":
+                    pointCounter++;
                     totClicks++;
 
-
-                  //  ImageIcon cookie = new ImageIcon(getClass().getClassLoader().getResource("cookie.png"));
-
                     System.out.println(totClicks);
-                    if(totClicks > 10){
-
-                        cookieButton.setIcon(null);
-
-                        cookie = new ImageIcon(getClass().getClassLoader().getResource("monster_red.png"));
-
-                        cookieButton.setIcon(cookie);
+                    Monster x = new Monster(mainButton, game, mainPanel, totClicks);
+                    x.change_monster();
 
 
-                        cookiePanel.add(cookieButton);
-                    }
-
-
-
-
-                    counterLabel.setText(cookieCounter + " cookies");
+                    counterLabel.setText(pointCounter + " points");
                     break;
 
                 case "Cursor":
 
-                    if (cookieCounter >= cursorPrice) {
-                        cookieCounter = cookieCounter - cursorPrice;
+                    if (pointCounter >= cursorPrice) {
+                        pointCounter = pointCounter - cursorPrice;
                         cursorPrice = cursorPrice + 5;
-                        counterLabel.setText(cookieCounter + " cookies");
+                        counterLabel.setText(pointCounter + " points");
 
                         cursorNumber++;
                         button1.setText("Cursor " + "(" + cursorNumber + ")");
@@ -250,25 +237,25 @@ public class CookieMain {
 
                     }
                     else{
-                        messageText.setText("You need more cookies!");
+                        messageText.setText("You need more points!");
                     }
                 case "Grandpa":
 
-                    if (cookieCounter >= grandpaPrice) {
-                        cookieCounter = cookieCounter - grandpaPrice;
+                    if (pointCounter >= grandpaPrice) {
+                        pointCounter = pointCounter - grandpaPrice;
                         grandpaPrice = grandpaPrice + 50;
-                        counterLabel.setText(cookieCounter + " cookies");
+                        counterLabel.setText(pointCounter + " points");
 
                         grandpaNumber++;
                         button2.setText("Grandpa " + "(" + grandpaNumber + ")");
-                        messageText.setText("Cursor\n[price: " + cursorPrice + "]\nAutoclicks 1 cookie seconds");
+                        messageText.setText("Cursor\n[price: " + cursorPrice + "]\nAutoclicks 1 damage per second");
 
                         perSecond += 1;
                         timerUpdate();
 
                     }
                     else{
-                        messageText.setText("You need more cookies!");
+                        messageText.setText("You need more points!");
                     }
 
 
@@ -308,7 +295,7 @@ public class CookieMain {
                 if(grandpaUnlocked == false) messageText.setText("Item is currently locked");
 
                 else{
-                    messageText.setText("Grandpa\n[price: " + grandpaPrice +  "]\nEach grandpa produces 1 cookie per second");
+                    messageText.setText("Grandpa\n[price: " + grandpaPrice +  "]\nEach grandpa produces 1 damage per second");
                 }
 
 
