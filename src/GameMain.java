@@ -10,7 +10,7 @@ public class GameMain {
     JLabel counterLabel, perSecLabel;
 
     JButton button1, button2, button3, button4;
-    int pointCounter, timerSpeed, cursorNumber, cursorPrice, grandpaNumber =0, grandpaPrice = 100;
+    int pointCounter, timerSpeed, cursorNumber, cursorPrice, grandpaNumber = 0, grandpaPrice = 0;
 
     int totClicks = 0;
 
@@ -53,6 +53,7 @@ public class GameMain {
         font2 = new Font("Times New Roman", Font.PLAIN, 15);
 
     }
+
     ImageIcon game = new ImageIcon(getClass().getClassLoader().getResource("cookie.png"));
     JPanel mainPanel = new JPanel();
     JButton mainButton = new JButton();
@@ -69,8 +70,6 @@ public class GameMain {
 
         mainPanel.setBounds(100, 220, 200, 200);
         mainPanel.setBackground(Color.black);
-
-
 
 
         mainButton.addActionListener(gHandler);
@@ -175,10 +174,12 @@ public class GameMain {
             public void actionPerformed(ActionEvent e) {
                 pointCounter++;
                 totClicks++;
+                Monster x = new Monster(mainButton, game, mainPanel, totClicks);
+                x.change_monster();
                 counterLabel.setText(pointCounter + " points");
 
-                if(grandpaUnlocked == false){
-                    if(pointCounter >= grandpaPrice){
+                if (grandpaUnlocked == false) {
+                    if (pointCounter >= grandpaPrice) {
                         grandpaUnlocked = true;
                         button2.setText("Grandpa " + "(" + grandpaNumber + ")");
 
@@ -235,8 +236,8 @@ public class GameMain {
                         perSecond += 0.1;
                         timerUpdate();
 
-                    }
-                    else{
+
+                    } else {
                         messageText.setText("You need more points!");
                     }
                 case "Grandpa":
@@ -253,8 +254,9 @@ public class GameMain {
                         perSecond += 1;
                         timerUpdate();
 
-                    }
-                    else{
+
+
+                    } else {
                         messageText.setText("You need more points!");
                     }
 
@@ -292,12 +294,11 @@ public class GameMain {
                 messageText.setText("Cursor\n[price: " + cursorPrice + "]\nAutoclicks once every 10 seconds.");
             } else if (button == button2) {
 
-                if(grandpaUnlocked == false) messageText.setText("Item is currently locked");
+                if (grandpaUnlocked == false) messageText.setText("Item is currently locked");
 
-                else{
-                    messageText.setText("Grandpa\n[price: " + grandpaPrice +  "]\nEach grandpa produces 1 damage per second");
+                else {
+                    messageText.setText("Grandpa\n[price: " + grandpaPrice + "]\nEach grandpa produces 1 damage per second");
                 }
-
 
 
             } else if (button == button3) {
