@@ -5,6 +5,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
+/**
+ * This class contains the base logic of the game
+ */
 public class GameMain {
 
     JLabel counterLabel, perSecLabel;
@@ -54,7 +58,7 @@ public class GameMain {
 
     }
 
-    ImageIcon game = new ImageIcon(getClass().getClassLoader().getResource("cookie.png"));
+    ImageIcon game = new ImageIcon(getClass().getClassLoader().getResource("cookie.png")); //starting monster
     JPanel mainPanel = new JPanel();
     JButton mainButton = new JButton();
 
@@ -138,11 +142,11 @@ public class GameMain {
 
         itemPanel.add(button3);
 
-        button4 = new JButton("?");
+        button4 = new JButton("Achievements");
         button4.setFont(font1);
         button4.setFocusPainted(false);
         button4.addActionListener(gHandler);
-        button4.setActionCommand("Cursor");
+        button4.setActionCommand("Achievements");
         button4.addMouseListener(mHandler);
 
         itemPanel.add(button4);
@@ -240,6 +244,8 @@ public class GameMain {
                     } else {
                         messageText.setText("You need more points!");
                     }
+
+                    break;
                 case "Grandpa":
 
                     if (pointCounter >= grandpaPrice) {
@@ -254,11 +260,25 @@ public class GameMain {
                         perSecond += 1;
                         timerUpdate();
 
-
-
                     } else {
                         messageText.setText("You need more points!");
                     }
+                    break;
+
+                case "Achievements":
+                    JPanel panel=new JPanel();
+                    JScrollPane scrollBar=new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+                    JFrame frame=new JFrame("Achievements");
+                    frame.setBackground(Color.BLACK);
+                    frame.add(scrollBar);
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+                    frame.setSize(400,400);
+
+
+                    frame.setVisible(true);
 
 
                     break;
@@ -287,6 +307,11 @@ public class GameMain {
 
         }
 
+
+        /**
+         * Tooltip for when you hover the mouse over the button
+         * @param e
+         */
         @Override
         public void mouseEntered(MouseEvent e) {
             JButton button = (JButton) e.getSource();
@@ -304,8 +329,9 @@ public class GameMain {
             } else if (button == button3) {
                 messageText.setText("Item is currently locked");
 
-            } else if (button == button4) {
-                messageText.setText("Item is currently locked");
+            }
+            else if (button == button4) {
+                messageText.setText("View Achievements");
 
             }
         }

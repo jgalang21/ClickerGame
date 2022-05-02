@@ -25,7 +25,7 @@ public class Monster {
 
         }
          if(totClicks > 20){
-             ic = new ImageIcon(getClass().getClassLoader().getResource("monster_purple.png"));
+             ic = new ImageIcon(getClass().getClassLoader().getResource("monster_purple_200x200.png"));
         }
 
         button.setIcon(ic);
