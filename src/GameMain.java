@@ -20,7 +20,7 @@ public class GameMain {
 
     double perSecond;
 
-    boolean timerOn, grandpaUnlocked = false;
+    boolean timerOn, grandpaUnlocked = false, claimed = false;
 
     GameHandler gHandler = new GameHandler();
 
@@ -266,19 +266,9 @@ public class GameMain {
                     break;
 
                 case "Achievements":
-                    JPanel panel=new JPanel();
-                    JScrollPane scrollBar=new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-                    JFrame frame=new JFrame("Achievements");
-                    frame.setBackground(Color.BLACK);
-                    frame.add(scrollBar);
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-                    frame.setSize(400,400);
-
-
-                    frame.setVisible(true);
+                    Achievement a = new Achievement();
+                    a.renderView();
 
 
                     break;
