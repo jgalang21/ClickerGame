@@ -229,6 +229,8 @@ public class GameMain {
 
                 case "Cursor":
 
+
+
                     if (pointCounter >= cursorPrice) {
                         pointCounter = pointCounter - cursorPrice;
                         cursorPrice = cursorPrice + 5;
@@ -267,10 +269,8 @@ public class GameMain {
 
                 case "Achievements":
 
-                    Achievement a = new Achievement();
-                    a.renderView();
-
-
+                    Achievement a = new Achievement(pointCounter, counterLabel);
+                    totClicks += a.retPoints();
                     break;
 
 
