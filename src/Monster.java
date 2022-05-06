@@ -28,6 +28,11 @@ public class Monster {
              ic = new ImageIcon(getClass().getClassLoader().getResource("monster_purple_200x200.png"));
         }
 
+//         else if (totClicks == 100){
+//             panel.add(new JLabel("DOUBLE POINTS!"));
+//
+//         }
+
         button.setIcon(ic);
         panel.add(button);
 

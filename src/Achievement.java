@@ -131,7 +131,7 @@ public class Achievement {
                    // System.out.println(i);
 
                     i += 10;
-                    cLabel.setText(i + " points");
+//                    cLabel.setText(i + " points");
                     break;
 
             }

@@ -16,11 +16,11 @@ public class GameMain {
     JButton button1, button2, button3, button4;
     int pointCounter, timerSpeed, cursorNumber, cursorPrice, grandpaNumber = 0, grandpaPrice = 0;
 
-    int totClicks = 0;
+    int totClicks = 0, multiplier =0;
 
     double perSecond;
 
-    boolean timerOn, grandpaUnlocked = false, claimed = false;
+    boolean timerOn, grandpaUnlocked = false, double_pts = false;
 
     GameHandler gHandler = new GameHandler();
 
@@ -58,7 +58,7 @@ public class GameMain {
 
     }
 
-    ImageIcon game = new ImageIcon(getClass().getClassLoader().getResource("cookie.png")); //starting monster
+    ImageIcon game = new ImageIcon(getClass().getClassLoader().getResource("bluemons_200x200.png")); //starting monster
     JPanel mainPanel = new JPanel();
     JButton mainButton = new JButton();
 
@@ -124,7 +124,7 @@ public class GameMain {
 
         itemPanel.add(button1);
 
-        button2 = new JButton("?");
+        button2 = new JButton("Autoclicker");
         button2.setFont(font1);
         button2.setFocusPainted(false);
         button2.addActionListener(gHandler);
@@ -133,11 +133,11 @@ public class GameMain {
 
         itemPanel.add(button2);
 
-        button3 = new JButton("?");
+        button3 = new JButton("Double Points");
         button3.setFont(font1);
         button3.setFocusPainted(false);
         button3.addActionListener(gHandler);
-        button3.setActionCommand("Cursor");
+        button3.setActionCommand("doublePoints");
         button3.addMouseListener(mHandler);
 
         itemPanel.add(button3);
@@ -185,7 +185,7 @@ public class GameMain {
                 if (grandpaUnlocked == false) {
                     if (pointCounter >= grandpaPrice) {
                         grandpaUnlocked = true;
-                        button2.setText("Grandpa " + "(" + grandpaNumber + ")");
+                        button2.setText("AutoClicker " + "(" + grandpaNumber + ")");
 
                     }
                 }
@@ -210,26 +210,36 @@ public class GameMain {
         timer.start();
     }
 
+    JButton surp;
+    Monster x;
     public class GameHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             String action = event.getActionCommand();
 
             switch (action) {
                 case "damage":
-                    pointCounter++;
-                    totClicks++;
+
+                    if(double_pts == true){
+                        pointCounter += multiplier;
+                        totClicks += multiplier;
+                    }
+                    else{
+                        pointCounter++;
+                        totClicks++;
+                    }
+
 
                     System.out.println(totClicks);
-                    Monster x = new Monster(mainButton, game, mainPanel, totClicks);
+
+                     x = new Monster(mainButton, game, mainPanel, totClicks);
                     x.change_monster();
 
 
                     counterLabel.setText(pointCounter + " points");
                     break;
 
+
                 case "Cursor":
-
-
 
                     if (pointCounter >= cursorPrice) {
                         pointCounter = pointCounter - cursorPrice;
@@ -242,12 +252,11 @@ public class GameMain {
                         perSecond += 0.1;
                         timerUpdate();
 
-
                     } else {
                         messageText.setText("You need more points!");
                     }
-
                     break;
+
                 case "Grandpa":
 
                     if (pointCounter >= grandpaPrice) {
@@ -256,7 +265,7 @@ public class GameMain {
                         counterLabel.setText(pointCounter + " points");
 
                         grandpaNumber++;
-                        button2.setText("Grandpa " + "(" + grandpaNumber + ")");
+                        button2.setText("AutoClicker " + "(" + grandpaNumber + ")");
                         messageText.setText("Cursor\n[price: " + cursorPrice + "]\nAutoclicks 1 damage per second");
 
                         perSecond += 1;
@@ -267,10 +276,18 @@ public class GameMain {
                     }
                     break;
 
+                case "doublePoints":
+
+                    double_pts = true;
+                    multiplier +=2;
+
+                    break;
+
+
                 case "Achievements":
 
                     Achievement a = new Achievement(pointCounter, counterLabel);
-                    totClicks += a.retPoints();
+
                     break;
 
 
